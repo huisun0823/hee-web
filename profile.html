@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>heesoonkim</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="js/jquery-3.4.0.min.js"></script>
+	<script type="text/javascript" src="js/tether.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/jquery.pjax.js"></script>
+	<script type="text/javascript" src="js/pjax.js"></script>
+	<script type="text/javascript" src="lib/three.min.js"></script>
+	<script src="js/shaders/CopyShader.js"></script>
+	<!--<script src="js/shaders/DigitalGlitch.js"></script>-->
+	<script id="vs" type="x-shader/x-vertex">
+		varying vec2 vUv;
+		void main() {
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+		}
+	</script>
+
+	<script id="vs1" type="x-shader/x-vertex">
+		varying vec2 vUv;
+		void main() {
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+		}
+	</script>
+
+	<script id="fs" type="x-shader/x-fragment">
+		uniform sampler2D tDiffuse;
+		uniform float time;
+		uniform float amount;
+		uniform float size;
+		uniform vec2 u_resolution;
+
+		varying vec2 vUv;
+		
+		
+		float rand(vec2 co){
+			return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+		}
+
+		float plot(vec2 st, float pct){
+  			return  smoothstep( pct-0.002, pct, st.y) -
+          			smoothstep( pct, pct+0.002, st.y);
+		}
+				
+		void main() {
+			vec2 p = vUv;
+			vec2 st = p;
+			//log.console(u_resolution);
+		    float y = abs(sin(time*0.1));
+		    //log.console(u_resolution);
+		    // Plot a line
+
+		    float pct = plot(st,y)+plot(st,abs(sin(time*0.1+0.01)));
+		    //color = (1.0-pct)*color+pct*vec3(0.0,1.0,0.0);
+		    
+
+			vec4 color = texture2D(tDiffuse, p);
+			float xs = floor(gl_FragCoord.x / size);
+			float ys = floor(gl_FragCoord.y / size);
+			vec4 snow = vec4(rand(vec2(/*xs * */time,ys * time))*amount);
+
+			if(color.a > 0.4){
+
+				color = mix(color,vec4(1.0,1.0,1.0,1.0),pct);
+				gl_FragColor = color + snow;
+
+			}else{
+				gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+			}
+		
+			//gl_FragColor = color + snow;
+		}
+
+	</script>
+	<script id="fs-distortion" type="x-shader/x-fragment">
+
+		uniform sampler2D tDiffuse;
+		uniform float time;
+		uniform float distortion;
+		uniform float distortion2;
+		uniform float speed;
+		uniform float rollSpeed;
+		varying vec2 vUv;
+		
+		// Start Ashima 2D Simplex Noise
+
+		vec3 mod289(vec3 x) {
+		  return x - floor(x * (1.0 / 289.0)) * 289.0;
+		}
+
+		vec2 mod289(vec2 x) {
+		  return x - floor(x * (1.0 / 289.0)) * 289.0;
+		}
+
+		vec3 permute(vec3 x) {
+		  return mod289(((x*34.0)+1.0)*x);
+		}
+
+		float snoise(vec2 v)
+		  {
+		  const vec4 C = vec4(0.211324865405187,  // (3.0-sqrt(3.0))/6.0
+		                      0.366025403784439,  // 0.5*(sqrt(3.0)-1.0)
+		                     -0.577350269189626,  // -1.0 + 2.0 * C.x
+		                      0.024390243902439); // 1.0 / 41.0
+		  vec2 i  = floor(v + dot(v, C.yy) );
+		  vec2 x0 = v -   i + dot(i, C.xx);
+
+		  vec2 i1;
+		  i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+		  vec4 x12 = x0.xyxy + C.xxzz;
+		 x12.xy -= i1;
+
+		  i = mod289(i); // Avoid truncation effects in permutation
+		  vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
+				+ i.x + vec3(0.0, i1.x, 1.0 ));
+
+		  vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+		  m = m*m ;
+		  m = m*m ;
+
+		  vec3 x = 2.0 * fract(p * C.www) - 1.0;
+		  vec3 h = abs(x) - 0.5;
+		  vec3 ox = floor(x + 0.5);
+		  vec3 a0 = x - ox;
+
+		  m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+
+		  vec3 g;
+		  g.x  = a0.x  * x0.x  + h.x  * x0.y;
+		  g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+		  return 130.0 * dot(m, g);
+		}
+
+		// End Ashima 2D Simplex Noise
+
+		void main() {
+
+			vec2 p = vUv;
+			float ty = time*speed;
+			float yt = p.y - ty;
+			//smooth distortion
+			float offset = snoise(vec2(yt*3.0,0.0))*0.2;
+			// boost distortion
+			offset = offset*distortion * offset*distortion * offset;
+			//add fine grain distortion
+			offset += snoise(vec2(yt*50.0,0.0))*distortion2*0.001;
+			//combine distortion on X with roll on Y
+			gl_FragColor = texture2D(tDiffuse,  vec2(fract(p.x + offset),fract(p.y-time*rollSpeed) ));
+
+		}
+
+	</script>
+	<script id="fs-rgbshift" type="x-shader/x-fragment">
+		uniform sampler2D tDiffuse;
+		uniform float amount;
+		uniform float angle;
+
+		varying vec2 vUv;
+
+		void main() {
+
+			vec2 offset = amount * vec2( cos(angle), sin(angle));
+			vec4 cr = texture2D(tDiffuse, vUv + offset);
+			vec4 cga = texture2D(tDiffuse, vUv);
+			vec4 cb = texture2D(tDiffuse, vUv - offset);
+			gl_FragColor = vec4(cr.r, cga.g, cb.b, cga.a);
+
+		}
+
+	</script>
+	
+
+	<script src="js/postprocessing/EffectComposer.js"></script>
+	<script src="js/postprocessing/RenderPass.js"></script>
+	<script src="js/postprocessing/MaskPass.js"></script>
+	<script src="js/postprocessing/ShaderPass.js"></script>
+	<script src='lib/dat.gui.min.js'></script>
+
+
+</head>
+<body>
+	
+	<header>
+		<div class="header-nav">
+			<nav class="nav">
+			  <a class="nav-link pj home" href="index.html">ㄱㅣㅁ</a>
+			  <a class="nav-link pj" href="profile.html">profile</a>
+			  <a class="nav-link" href="#">works</a>
+			  <a class="nav-link" href="#">cotact</a>
+			  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">blog</a>
+			</nav>
+		</div>
+
+		
+			<div class=top-title>
+				<div class="name"><a class="pj home" href="index.html">HEESOON KIM</a></div>
+				<div class="job-title">Creative Engineer</div>
+			</div>
+
+	</header>
+	<div id="home"></div>
+
+
+	<div class="main" id="main">
+		<div id="profile">
+			<div class="back">back</div>
+			<div class="container">
+				<div class="row"><div class="col-sm"><div class="profile-title"><h2>ABOUT</h2></div></div></div>
+				
+				<div class="row">
+				    <div class="col-sm text-justify">
+				    	<div class="profile-name"><h5>金　稀淳</h4></div>
+						これは自己紹介ですこれは自己紹介ですこれは自己紹介ですこれは自己紹介ですこれは自己紹介です
+						これは自己紹介ですこれは自己紹介ですこれは自己紹介ですこれは自己紹介ですこれは自己紹介です
+						これは自己紹介ですこれは自己紹介ですこれは自己紹介ですこれは自己紹介ですこれは自己紹介です
+						これは自己紹介ですこれは自己紹介ですこれは自己紹介ですこれは自己紹介ですこれは自己紹介です
+						これは自己紹介ですこれは自己紹介ですこれは自己紹介ですこれは自己紹介です
+				    </div>
+				    <div class="col-sm text-justify">
+				    	<div class="profile-name"><h5>HEESOON KIM</h4></div>
+						One of two columnsOne of two columnsOne of two columnsOne of two columns
+						One of two columnsOne of two columnsOne of two columnsOne of two columns
+						One of two columnsOne of two columnsOne of two columnsOne of two columns
+						One of two columnsOne of two columnsOne of two columnsOne of two columns
+						One of two columnsOne of two columnsOne of two columnsOne of two columns
+						One of two columnsOne of two columnsOne of two columns
+				    </div>
+				    
+			  	</div>
+
+			  	<div class="row"><div class="col-sm"><div class="profile-title"><h4>Experience</h2></div></div></div>
+
+				<div class="row">
+					<div class="col-sm text-justify">
+						<div class="career">
+						    <div class="year text-justify">
+						    	1988. 8. 23
+						    </div>
+						    <div class="career-outline text-justify">
+						    	誕生　
+						    </div>
+					    </div>
+						<div class="career">
+						    <div class="year text-justify">
+						    	2007 - 2010
+						    </div>
+						    <div class="career-outline text-justify">
+						    	同志社大学　工学部　情報システムデザイン学科<br />
+						    	<div class="career-detail">自主退学</div>
+						    </div>
+					    </div>
+
+					    <div class="career">
+						    <div class="year text-justify">
+						    	2010 - 2012
+						    </div>
+						    <div class="career-outline text-justify">
+						    	慶応義塾大学大学院　メディアデザイン研究科<br />
+						    	<div class="career-detail">メディアデザイン学　修士取得</div>
+						    </div>
+					    </div>
+
+					    <div class="career">
+						    <div class="year text-justify">
+						    	2012 - 2014
+						    </div>
+						    <div class="career-outline text-justify">
+						    	ソニー株式会社　R&Dプロジェクト<br />
+						    	<div class="career-detail">ビジュアルプロダクトのUI/UX開発に従事</div>
+						    </div>
+					    </div>
+
+					    <div class="career">
+						    <div class="year text-justify">
+						    	2014 - 2016
+						    </div>
+						    <div class="career-outline text-justify">
+						    	ソニー株式会社　新規事業プロジェクト<br />
+						    	<div class="career-detail">新規プロダクトの企画/開発に従事</div>
+						    </div>
+					    </div>
+
+					    <div class="career">
+						    <div class="year text-justify">
+						    	2016 - 2017
+						    </div>
+						    <div class="career-outline text-justify">
+						    	スタンフォード大学　HCI Design Group, d.school<br />
+						    	<div class="career-detail">Design Thinnging及びUXデザイン専攻</div>
+						    </div>
+					    </div>
+
+					    <div class="career">
+						    <div class="year text-justify">
+						    	2018 - 2019
+						    </div>
+						    <div class="career-outline text-justify">
+						    	ソニー株式会社　新規事業プロジェクト<br />
+						    	<div class="career-detail">イントレプレナーとして活動</div>
+						    </div>
+					    </div>
+
+				    </div>
+
+				    <div class="col-sm text-justify">
+				      <div class="career">
+						    <div class="year text-justify">
+						    	1988. 8. 23
+						    </div>
+						    <div class="career-outline text-justify">
+						    	Born.
+						    </div>
+					    </div>
+						<div class="career">
+						    <div class="year text-justify">
+						    	2007 - 2010
+						    </div>
+						    <div class="career-outline text-justify">
+						    	Doshisha Univ.　Computer Sience<br />
+						    	<div class="career-detail">Dropped out and Skipped the Grade to Master.</div>
+						    </div>
+					    </div>
+					    <div class="career">
+						    <div class="year text-justify">
+						    	2010 - 2012
+						    </div>
+						    <div class="career-outline text-justify">
+						    	Keio Univ. Graduate School of Media Design<br />
+						    	<div class="career-detail">Master of Media Design</div>
+						    </div>
+						</div>
+						<div class="career">
+						    <div class="year text-justify">
+						    	2012 - 2014
+						    </div>
+						    <div class="career-outline text-justify">
+						    	SONY Corporation　R&D Project<br />
+						    	<div class="career-detail">Engaged in UI/UX engineerinng for visual experience</div>
+						    </div>
+						</div>
+						<div class="career">
+						    <div class="year text-justify">
+						    	2014 - 2016
+						    </div>
+						    <div class="career-outline text-justify">
+						    	SONY Corporation　New Product Design Project<br />
+						    	<div class="career-detail">Engaged in Design and Develop the new product</div>
+						    </div>
+						</div>
+						<div class="career">
+						    <div class="year text-justify">
+						    	2016 - 2017
+						    </div>
+						    <div class="career-outline text-justify">
+						    	Stanford Univ.　HCI Design Group, d.school<br />
+						    	<div class="career-detail">Majored in Design Thinnging and UX design</div>
+						    </div>
+						</div>
+						<div class="career">
+						    <div class="year text-justify">
+						    	2018 - 2019
+						    </div>
+						    <div class="career-outline text-justify">
+						    	SONY Corporation　New Bizz Project<br />
+						    	<div class="career-detail">Intrepreneur</div>
+						    </div>
+						</div>
+				    </div>
+				    
+			  	</div>
+			</div>
+		</div>
+		
+	</div>
+
+
+	<script src="js/GLGraphics.js"></script>
+</body>
+</html>
