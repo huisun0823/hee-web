@@ -32,6 +32,7 @@ header{
 
 }
 
+
 a {
 	font-family: serif;
 	color: black;
@@ -110,6 +111,46 @@ div#main {
 	padding: 160px 80px 20px 80px;
 
 }
+
+.main #contact{
+    height: 100%;
+	/*background-color: #5489a9;*/
+	height: 100%;
+	min-height:0;
+	padding: 160px 80px 20px 80px;
+
+}
+
+.contact-image img {
+	width:100%;
+	padding:0 20px;
+}
+
+.contact-name {
+	margin: 10px 0;
+}
+
+.contact-address {
+	margin: 10px 0;
+}
+.contact-sns {
+	margin: 10px 0 50px 0;
+}
+
+.contact-address a {
+    /* color: #ff0043; */
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.fa-facebook-square:hover {
+color: #3B5998;
+}
+
+.fa-linkedin-square:hover {
+color: #0976b4;
+}
+
 
 
 .grid-item img

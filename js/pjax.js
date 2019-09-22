@@ -107,6 +107,10 @@ $(function(){
            });
 
       },
+      contact: () =>{
+        blurEffect();
+
+      },
       elseFunc: () => {
           // それ以外の時にのみ実行したい処理
       }
@@ -154,6 +158,9 @@ $(function(){
         console.log(url);
     }else if( /works/.test(url) ){ 
         PageEvents.works();
+        console.log(url);
+    }else if( /contact/.test(url) ){ 
+        PageEvents.contact();
         console.log(url);
     }else{
         console.log(url);
