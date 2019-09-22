@@ -101,6 +101,7 @@ div#main {
 
 }
 
+
 .main #works{
     height: 100%;
 	/*background-color: #5489a9;*/
@@ -115,7 +116,6 @@ div#main {
 {
     width: 100%;
 }
-
 
 .profile-title{
 	margin: 20px 0px;
@@ -150,13 +150,13 @@ div#main {
 }
 
 
-
 .navbar-light .navbar-nav .nav-link {
     color: rgba(0, 0, 0, 0.9);
 }
 
 .navbar-light .navbar-toggler{
 	border-style: none;
+
 }
 
 
@@ -280,3 +280,6 @@ div#main {
 
 
 
+=======
+}
+>>>>>>> origin/develop

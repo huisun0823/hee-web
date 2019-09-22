@@ -2,6 +2,7 @@ $(function(){
 
 	var isHome = false;
 
+
   $(document).on('click', '.pj', function(e){
 
   	e.preventDefault();
@@ -31,7 +32,9 @@ $(function(){
   });
 
 
+
     
+
 
   $(document).on('pjax:end', function() {
 
@@ -183,5 +186,6 @@ $(function(){
       }
     });
   }
+
 
 });
