@@ -48,7 +48,7 @@ a:hover {
 .top-title {
     margin-top: 20pt;
     font-family: serif;
-    font-size: 60px;
+    font-size: 32px;
     text-align: center;
     width: 100%;
 
@@ -280,32 +280,74 @@ color: #0976b4;
     color: gray;
 }
 
-@media (min-width: 576px) { 
+
+
+@media (max-width: 575.98px) {
+	.nav {
+	    font-family: serif;
+	    font-weight: lighter;
+	    color: black;
+	    font-size: 15px;
+	}
+	.nav-link {
+	    display: block;
+	    padding: .5rem 0.8rem;
+	    margin: 0 auto;
+	}
+
 	.top-title {
-    margin-top: 20pt;
-    font-family: serif;
-    font-size: xx-large;
-    text-align: center;
-    width: 100%;
-
-}
-}
-
-/*Medium devices (tablets, 768px and up)*/
-@media (min-width: 768px) {
-
+	    margin-top: 20pt;
+	    font-family: serif;
+	    font-size: 30px;
+	    text-align: center;
+	    width: 100%;
+	}
 }
 
-/*Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) {
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+	.top-title {
+	    margin-top: 20pt;
+	    font-family: serif;
+	    font-size: xx-large;
+	    text-align: center;
+	    width: 100%;
+	}
+}
+
+
+@media (min-width: 768px) and (max-width: 991.98px) { 
+	.top-title {
+	    margin-top: 20pt;
+	    font-family: serif;
+	    font-size: xx-large;
+	    text-align: center;
+	    width: 100%;
+	}
+}
+
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+	.top-title {
+	    margin-top: 20pt;
+	    font-family: serif;
+	    font-size: xx-large;
+	    text-align: center;
+	    width: 100%;
+	}
 
 }
 
-/*Extra large devices (large desktops, 1200px and up)*/
 @media (min-width: 1200px) {
+	.top-title {
+	    margin-top: 20pt;
+	    font-family: serif;
+	    font-size: xx-large;
+	    text-align: center;
+	    width: 100%;
+	}
 
 }
-
 
 
 
