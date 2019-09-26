@@ -16,6 +16,7 @@ header{
 	background: rgba(255,255,255,0.6);
 }
 
+
 .header-nav{
 	font-family: serif;
 	font-weight: lighter;
@@ -47,7 +48,7 @@ a:hover {
 .top-title {
     margin-top: 20pt;
     font-family: serif;
-    font-size: xx-large;
+    font-size: 60px;
     text-align: center;
     width: 100%;
 
@@ -153,39 +154,38 @@ color: #0976b4;
 
 
 
-.grid-item img
-{
+.grid-item img {
     width: 100%;
 }
 
-.profile-title{
+.profile-title {
 	margin: 20px 0px;
 }
 
-.back{
+.back {
 	float: right;
 }
 
-.jp{
+.jp {
 	font-size: 15px;
 	font-family: sans-serif;
 }
 
 
-.year{
+.year {
 	width: 30%;
 	padding: 10px 0;
     float: left;
-    
-
 }
-.career-outline{
+
+.career-outline {
 	width: 70%;
 	padding: 10px 0;
     float: left;
 
 }
-.career-detail{
+
+.career-detail {
 	font-size: 12px;
 	color: #333;
 }
@@ -195,7 +195,7 @@ color: #0976b4;
     color: rgba(0, 0, 0, 0.9);
 }
 
-.navbar-light .navbar-toggler{
+.navbar-light .navbar-toggler {
 	border-style: none;
 
 }
@@ -219,7 +219,7 @@ color: #0976b4;
     color: black;
 }
 
-.sub-title{
+.sub-title {
 	text-align: center;
 	color: #636363;
 }
@@ -233,13 +233,14 @@ color: #0976b4;
         margin: 0;
 }*/
 
-.item{
+.item {
   display: none;
   float: left;
   height: 100%;
   min-height: 1px;
 }
-.main-slider.slick-initialized{
+
+.main-slider.slick-initialized { 
   display: block; /*slick-initializedが付与されたら表示*/
 }
 
@@ -279,48 +280,33 @@ color: #0976b4;
     color: gray;
 }
 
+@media (min-width: 576px) { 
+	.top-title {
+    margin-top: 20pt;
+    font-family: serif;
+    font-size: xx-large;
+    text-align: center;
+    width: 100%;
 
-@media (min-width: 576px) {
-
-.contents iframe{
-	width:300px;
-	height: 200px;
 }
-
 }
 
 /*Medium devices (tablets, 768px and up)*/
 @media (min-width: 768px) {
-
-.contents  iframe{
-	width:600px;
-	height: 315px;
-}
 
 }
 
 /*Large devices (desktops, 992px and up)*/
 @media (min-width: 992px) {
 
-.contents iframe{
-	width:700px;
-	height: 315px;
-}
 }
 
 /*Extra large devices (large desktops, 1200px and up)*/
 @media (min-width: 1200px) {
 
-.contents iframe{
-	width:1200px;
-	height: 630px;
-}
-}
-
 }
 
 
 
-=======
-}
->>>>>>> origin/develop
+
+
