@@ -283,6 +283,10 @@ color: #0976b4;
 
 
 @media (max-width: 575.98px) {
+	
+	.h2, h2 {
+    	font-size: 1.5rem;
+	}
 	.nav {
 	    font-family: serif;
 	    font-weight: lighter;
@@ -302,6 +306,30 @@ color: #0976b4;
 	    text-align: center;
 	    width: 100%;
 	}
+
+	.main #profile {
+	    height: 100%;
+	    /* background-color: #5489a9; */
+	    height: 100%;
+	    min-height: 0;
+	    padding: 160px 20px 20px 20px;
+	}
+	.main #works {
+	    height: 100%;
+	    /* background-color: #5489a9; */
+	    height: 100%;
+	    min-height: 0;
+	    padding: 160px 20px 20px 20px;
+	}
+
+	.main #contact {
+	    height: 100%;
+	    /* background-color: #5489a9; */
+	    height: 100%;
+	    min-height: 0;
+	    padding: 160px 20px 20px 20px;
+	}
+
 }
 
 
