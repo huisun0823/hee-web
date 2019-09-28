@@ -69,10 +69,10 @@ var facialAnimation = function(){
 		camera.position.set(0,  0, /*(window.innerWidth/2)*1.7325*/1000);
 
 	 	//init renderer
-		renderer = new THREE.WebGLRenderer();
+		renderer = new THREE.WebGLRenderer({ alpha: true });
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		renderer.setPixelRatio( window.devicePixelRatio );
-		renderer.setClearColor( 0x0ffffff, 1 );
+		renderer.setClearColor( 0x000000, 0 );
 
 		//renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
 
@@ -138,7 +138,7 @@ var facialAnimation = function(){
 
 
 
-  		scene.add( new THREE.AmbientLight( 0x222222 ) );
+  		//scene.add( new THREE.AmbientLight( 0x222222 ) );
 
   		light = new THREE.DirectionalLight( 0xffffff );
 

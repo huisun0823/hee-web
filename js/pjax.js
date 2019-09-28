@@ -87,7 +87,9 @@ $(function(){
 
           $(document).ready(function() {
               $(".fancybox").fancybox({
-                scrolling:"no"
+                
+                'height' : '70%',
+                'autoSize' : false
               });
 
               $(".main-slider").on("init", function(slick){
