@@ -106,7 +106,7 @@ var facialAnimation = function(){
 
 		geometry = new THREE.PlaneGeometry(500, 500,1,1);
 		mesh = new THREE.Mesh( geometry, material );
-
+		mesh.position.set(0,0,0);
   		scene.add( mesh );
 
 
@@ -168,6 +168,20 @@ var facialAnimation = function(){
 		//glitchPass.goWild = wildGlitch.checked;
 
 		window.addEventListener( 'resize', onWindowResize, false );
+
+		window.addEventListener("orientationchange", function() {
+    		/* 向き切り替え時の処理 */
+    		if (window.innerHeight > window.innerWidth) {
+	        	/* 縦画面時の処理 */
+	        	mesh.position.set(0,-150,0);
+	        	console.log("horizontal");
+    		} else {
+        		/* 横画面時の処理 */
+        		mesh.position.set(0,0,0);
+        		console.log("vertical");
+    		}
+
+		});
 	}
 
 	
