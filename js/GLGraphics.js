@@ -171,15 +171,6 @@ var facialAnimation = function(){
 
 		window.addEventListener("orientationchange", function() {
     		/* 向き切り替え時の処理 */
-    		if (window.innerHeight > window.innerWidth) {
-	        	/* 縦画面時の処理 */
-	        	mesh.position.set(0,-150,0);
-	        	console.log("horizontal");
-    		} else {
-        		/* 横画面時の処理 */
-        		mesh.position.set(0,0,0);
-        		console.log("vertical");
-    		}
 
 		});
 	}
@@ -212,6 +203,19 @@ var facialAnimation = function(){
 		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		composer.setSize( window.innerWidth, window.innerHeight );
+
+	    if (window.innerHeight > window.innerWidth) {
+        	/* 縦画面時の処理 */
+        	mesh.position.set(0,0,0);
+    		console.log("vertical");
+		} else {
+    		/* 横画面時の処理 */
+
+    		mesh.position.set(0,-200,0);
+        	console.log("horizontal");
+		}
+
+
 
 	}
 
