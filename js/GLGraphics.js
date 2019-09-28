@@ -242,16 +242,17 @@ var facialAnimation = function(){
 		    var o = (window.orientation % 180 == 0);
 		    if((o && defaultOrientation) || !(o || defaultOrientation)) {
 		      // ここに縦長画面への切り替え処理を記述
-		      console.log('portrait');
-		      mesh.position.set(0,0,0);
+		        console.log('landscape');
+		      mesh.position.set(0,-200,0);
 		 
 		    }
 		    else {
 		      // ここに横長画面への切り替え処理を記述
 
 
-		      console.log('landscape');
-		      mesh.position.set(0,-200,0);
+		    
+		      console.log('portrait');
+		      mesh.position.set(0,0,0);
 		    }
 		}
 	}, 100);
