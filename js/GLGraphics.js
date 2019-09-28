@@ -24,6 +24,8 @@ var facialAnimation = function(){
 
 	var shaderTime = 0;
 
+	var defaultOrientation; // window.orientationが0または180の時に縦長であればtrue
+
 	init();
 	animate();
 /*
@@ -167,20 +169,33 @@ var facialAnimation = function(){
 */
 		//glitchPass.goWild = wildGlitch.checked;
 
-		window.addEventListener( 'resize', onWindowResize, false );
+		
 
+		// 初期化処理
+		window.addEventListener('load', function() {
+		  if('orientation' in window) {
+		    var o1 = (window.innerWidth < window.innerHeight);
+		    var o2 = (window.orientation % 180 == 0);
+		    defaultOrientation = (o1 && o2) || !(o1 || o2);
+		    checkOrientation();
+		  }
+		  // もしあれば、その他Webアプリの初期化処理
+		}, false);
+
+		window.addEventListener( 'resize', onWindowResize, false );
+		/*
 		window.addEventListener("orientationchange", function() {
-    		/* 向き切り替え時の処理 */
+    		
 
 	    	setTimeout(function(){
 
 		    	if (window.innerHeight > window.innerWidth) {
-		        	/* 縦画面時の処理 */
+		        	
 		        	mesh.position.set(0,0,0);
 		    		console.log("vertical");
 
 				} else {
-		    		/* 横画面時の処理 */
+		    		
 		    		mesh.position.set(0,-200,0);
 		        	console.log("horizontal");
 				}
@@ -188,6 +203,7 @@ var facialAnimation = function(){
 			}, 100);
 
 		});
+		*/
 
 	}
 
@@ -213,13 +229,31 @@ var facialAnimation = function(){
 
 
 	function onWindowResize() {
-
+	setTimeout(function(){
 		camera.aspect = window.innerWidth / window.innerHeight;
 		camera.updateProjectionMatrix();
 		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		composer.setSize( window.innerWidth, window.innerHeight );
 
+		if('orientation' in window) {
+		    // defaultOrientationがtrueの場合、window.orientationが0か180の時は縦長
+		    // defaultOrientationがfalseの場合、window.orientationが-90か90の時は縦長
+		    var o = (window.orientation % 180 == 0);
+		    if((o && defaultOrientation) || !(o || defaultOrientation)) {
+		      // ここに縦長画面への切り替え処理を記述
+		      console.log('landscape');
+		      mesh.position.set(0,-200,0);
+		 
+		    }
+		    else {
+		      // ここに横長画面への切り替え処理を記述
+
+		      console.log('portrait');
+		      mesh.position.set(0,0,0);
+		    }
+		}
+	}, 100);
 
 
 	}
