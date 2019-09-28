@@ -72,7 +72,7 @@ var facialAnimation = function(){
 		renderer = new THREE.WebGLRenderer({ alpha: true });
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		renderer.setPixelRatio( window.devicePixelRatio );
-		renderer.setClearColor( 0x000000, 0 );
+		renderer.setClearColor( 0xffffff, 1 );
 
 		//renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
 
