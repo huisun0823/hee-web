@@ -235,7 +235,14 @@ var facialAnimation = function(){
 		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		composer.setSize( window.innerWidth, window.innerHeight );
+		checkOrientation();
+		
+	}, 100);
 
+
+	}
+
+	function checkOrientation() {
 		if('orientation' in window) {
 		    // defaultOrientationがtrueの場合、window.orientationが0か180の時は縦長
 		    // defaultOrientationがfalseの場合、window.orientationが-90か90の時は縦長
@@ -248,16 +255,10 @@ var facialAnimation = function(){
 		    }
 		    else {
 		      // ここに横長画面への切り替え処理を記述
-
-
-		    
 		      console.log('portrait');
 		      mesh.position.set(0,0,0);
 		    }
 		}
-	}, 100);
-
-
 	}
 
 
