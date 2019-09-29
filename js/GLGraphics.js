@@ -303,10 +303,14 @@ var facialAnimation = function(){
 	}
 
 }	
+	
+
+
 
 $(document).ready(function(){
   
   facialAnimation();
+
 
 });
 
