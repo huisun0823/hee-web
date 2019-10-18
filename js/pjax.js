@@ -88,7 +88,7 @@ $(function(){
           $(document).ready(function() {
               $(".fancybox").fancybox({
                 
-                'height' : '70%',
+                'height' : '90%',
                 'autoSize' : false
               });
 

@@ -135,7 +135,7 @@ div#main {
 	margin: 10px 0;
 }
 .contact-sns {
-	margin: 10px 0 50px 0;
+	margin: 10px 0 0px 0;
 }
 
 .contact-address a {
@@ -159,7 +159,7 @@ color: #0976b4;
 }
 
 .profile-title {
-	margin: 20px 0px;
+	margin: 10px 0px;
 }
 
 .back {
@@ -258,6 +258,24 @@ color: #0976b4;
     font-weight: 600;
 }
 
+.roll-title {
+	margin: 3px 0;
+    font-size:medium;
+    font-weight: 600;
+
+}
+
+.archive-title {
+	margin: 3px 0;
+    font-size:medium;
+    font-weight: 600;
+
+}
+
+.media-info a {
+	text-decoration-line: underline;
+}
+
 .frame-wrapper__video {
   position: relative;
   width: 100%;
@@ -272,6 +290,10 @@ color: #0976b4;
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.contents-image img {
+	width: 100%;
 }
 
 .philosophy-message {
@@ -344,6 +366,14 @@ color: #0976b4;
 	    height: 100%;
 	    min-height: 0;
 	    padding: 160px 20px 20px 20px;
+	}
+
+	.description{
+		text-align: justify;
+	}
+
+	.media a{
+		text-decoration-line: underline;
 	}
 
 
