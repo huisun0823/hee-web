@@ -86,7 +86,7 @@ var facialAnimation = function(){
 		scene = new THREE.Scene();
 
 
-		texture = new THREE.TextureLoader().load( "images/hee.png" );
+		texture = new THREE.TextureLoader().load( "images/heesoon.png" );
   		texture2 = new THREE.TextureLoader().load( "images/hee2.png" );
   		texture3 = new THREE.TextureLoader().load( "images/hee3.png" );
 

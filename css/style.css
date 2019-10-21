@@ -376,6 +376,17 @@ color: #0976b4;
 		text-decoration-line: underline;
 	}
 
+	.year {
+	    width: 30%;
+	    padding: 10px 0 0;
+	    float: left;
+	}
+
+	.career-outline {
+	    width: 100%;
+	    /* padding: 10px 0; */
+	    float: left;
+	}
 
 
 }
